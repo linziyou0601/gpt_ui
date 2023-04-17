@@ -1,0 +1,53 @@
+@import './base.css';
+
+*::-webkit-scrollbar {
+    width: 12px; /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+    margin: 0.75rem 0 0.75rem 0;
+    background: #ffffff; /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #cccccc; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid #ffffff; /* creates padding around scroll thumb */
+}
+
+main {
+    margin-top: 64px;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: rotate(0.5deg);
+    }
+    40% {
+        transform: rotate(-0.5deg);
+    }
+    60% {
+        transform: rotate(0.5deg);
+    }
+    80% {
+        transform: rotate(-0.5deg);
+    }
+    100% {
+        transform: translate(0);
+    }
+}
+
+.edit-mode {
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-delay: 0s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.pointer {
+    cursor: pointer;
+}
