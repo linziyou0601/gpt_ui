@@ -5,7 +5,7 @@
             <span class="mx-2">{{ role }}</span>
             <div v-if="role === 'user'" class="avatar user-avatar">U</div>
         </div>
-        <div class="col-9 msg" :class="roleClass" v-html="msgWithLineBreak"></div>
+        <div class="col-9 msg" :class="roleClass" v-html="msgWithBeauty"></div>
     </div>
 </template>
 
@@ -16,7 +16,15 @@ import { computed } from 'vue'
 const props = defineProps(['role', 'content'])
 const role = computed(() => props?.role)
 const msg = computed(() => props?.content ?? '')
-const msgWithLineBreak = computed(() => msg.value.replaceAll(/(?:\r\n|\r|\n|\\r\\n|\\r|\\n)/g, '<br>'))
+const msgWithBeauty = computed(() => {
+    let x = msg.value.replaceAll(/</gm, '&lt;')
+    x = x.replaceAll(/>/gm, '&gt;')
+    x = x.replaceAll(/`{3}(?:[\w]*)\n([\S\s]+?)\n`{3}/gm, '<pre>$1</pre>')
+    x = x.replaceAll(/(?:\r\n|\r|\n|\\r\\n|\\r|\\n)/g, '<br/>')
+    return x
+})
+
+
 const alignClass = computed(() => {
     return role.value === 'assistant' ? 'justify-content-start' : 'justify-content-end'
 })
@@ -45,6 +53,7 @@ const roleClass = computed(() => {
         color: #143058;
     }
 }
+
 .avatar {
     display: inline-block;
     margin: 0;
