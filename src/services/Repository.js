@@ -34,7 +34,7 @@ const getChatMock = (request) => {
 // ----- 歷史紀錄API -----
 const getHistory = () => {
     return clientAPI(baseURL).post('/gpt/get_history', {
-        channel: 'wms_vue'
+        channel: 'gpt_ui'
     })
 }
 const getHistoryMock = () => {
@@ -48,7 +48,7 @@ const getHistoryMock = () => {
 }
 const clearHistory = () => {
     return clientAPI(baseURL).post('/gpt/clear_history', {
-        channel: 'wms_vue'
+        channel: 'gpt_ui'
     })
 }
 const clearHistoryMock = () => {
