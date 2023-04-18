@@ -50,6 +50,15 @@
     * `code: int` 是否成功，200為成功，於`HomeView.vue`會判斷
     * `message: string` 訊息內容
 
+### Log Socket
+
+按以下格式接受Log Socket
+
+* `channel: string` Socket emit接收的channel，預設為`"log"`
+* `data: Object` 結構如下：
+    * `level: string` 值可以是：`DEBUG | INFO | WARNING | ERROR | CRITICAL`
+    * `message: string` LOG的訊息
+
 ---
 
 ## Vue 3 in Vite 說明

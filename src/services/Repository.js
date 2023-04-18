@@ -1,7 +1,7 @@
 import clientAPI from './_AxiosConfig'
 
 // ==================== 設定檔 ====================
-//const baseURL = 'http://127.0.0.1:5001'
+// const baseURL = 'http://127.0.0.1:8082'
 const baseURL = 'https://api-gpt.linziyou.info'
 
 // ==================== API CALL ====================
@@ -63,6 +63,7 @@ const clearHistoryMock = () => {
 
 // ==================== 輸出 ====================
 export default {
+    baseURL,
     getChat,
     getChatMock,
     getHistory,

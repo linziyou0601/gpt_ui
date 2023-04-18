@@ -22,6 +22,9 @@
                         <li class="nav-item px-2">
                             <RouterLink :class="{ 'nav-link': true, 'px-3': true, active: isRouteActive('/') }" to="/">Home</RouterLink>
                         </li>
+                        <li class="nav-item px-2">
+                            <RouterLink :class="{ 'nav-link': true, 'px-3': true, active: isRouteActive('/log') }" to="/log" target="_blank">Log</RouterLink>
+                        </li>
                     </ul>
                 </div>
             </div>
