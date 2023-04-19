@@ -1,5 +1,5 @@
 <template>
-    <div class="container px-4 mb-5">
+    <div class="container-fluid px-0 mx-0 mt-2 mb-5">
         <div v-if="chatMsgs.length > 0" id="caht-area">
             <MessageBox v-for="(chat, index) in chatMsgs" :key="index" :role="chat.role" :content="chat.content" />
             <div class="text-center mt-4">
@@ -132,7 +132,19 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 #caht-area {
-    padding: 1rem;
+    padding: 1rem 15rem;
+
+    @media screen and (max-width: 1200px) {
+        padding: 1rem 10rem;
+    }
+
+    @media screen and (max-width: 992px) {
+        padding: 1rem 5rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding: 1rem 1rem;
+    }
 }
 
 /*輸入框內的圖示屬性設定*/

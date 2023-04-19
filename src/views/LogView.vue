@@ -1,19 +1,21 @@
 <template>
-    <!-- 選擇logLevel -->
-    <div id="log-leve-options">
-        <div class="form-check form-check-inline" v-for="(logLevelOpt, index) in logLevelOpts" :key="index">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" :value="logLevelOpt.value" v-model="logLevelOpt.checked">
-            <label class="form-check-label" for="inlineCheckbox1">{{ logLevelOpt.label }}</label>
+    <div class="container-fluid px-0 mx-0 mb-3">
+        <!-- 選擇logLevel -->
+        <div id="log-leve-options" class="mb-2">
+            <div class="pe-2 d-inline" v-for="(logLevelOpt, index) in logLevelOpts" :key="index">
+                <input type="checkbox" class="btn-check" :id="logLevelOpt.label" autocomplete="off" :value="logLevelOpt.value" v-model="logLevelOpt.checked">
+                <label class="btn btn-outline-secondary rounded-3" :for="logLevelOpt.label">{{ logLevelOpt.label }}</label>
+            </div>
         </div>
-    </div>
 
-    <!-- Log區 -->
-    <div ref="logArea" class="container px-4 mb-5" id="log-area">
-        <div id="socket-ip">socket ip: {{ Repository.baseURL }}</div>
-        <LogBox v-for="(logData, index) in logDataList" :key="index" :logLevelOpts="logLevelOpts" :level="logData.level" :message="logData.message" />
-    </div>
-    <div class="text-center mt-4">
-        <button id="clearLogDataList" class="btn" @click="confirmModalRef.toggleConfirmDialogModal">Clear</button>
+        <!-- Log區 -->
+        <div ref="logArea" class="px-4 mb-3" id="log-area">
+            <div id="socket-ip">socket ip: {{ Repository.baseURL }}</div>
+            <LogBox v-for="(logData, index) in logDataList" :key="index" :logLevelOpts="logLevelOpts" :level="logData.level" :message="logData.message" />
+        </div>
+        <div class="text-center mt-3">
+            <button id="clearLogDataList" class="btn" @click="confirmModalRef.toggleConfirmDialogModal">Clear</button>
+        </div>
     </div>
 
     <ConfirmModal ref="confirmModalRef" :title="'確認清除畫面上的日誌'" :confirmFunc="() => logDataList.length = 0" />
@@ -65,7 +67,7 @@ const autoScroll = () => {
     border-radius: .75rem;
     padding: 1rem 4rem 1rem 4rem;
     font-family: monospace;
-    height: calc(100vh - 300px);
+    height: calc(100vh - 240px);
     overflow-y: scroll;
 }
 
