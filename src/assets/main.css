@@ -52,10 +52,3 @@ main {
 .pointer {
     cursor: pointer;
 }
-
-pre {
-    background-color: #f1f6fd !important;
-    border-radius: 5px !important;
-    padding: 10px !important;
-    margin: 0 !important;
-}

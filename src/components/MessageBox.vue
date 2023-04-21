@@ -5,24 +5,28 @@
             <span class="mx-2">{{ role }}</span>
             <div v-if="role === 'user'" class="avatar user-avatar">U</div>
         </div>
-        <div class="col-9 msg" :class="roleClass" v-html="msgWithBeauty"></div>
+        <div class="col-9 msg" :class="roleClass" v-html="msgWithMarkdown"></div>
     </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { marked } from 'marked'
+import hljs from 'highlight.js'
+
+marked.setOptions({
+  highlight: function(code, lang) {
+    return hljs.highlight(code, {
+        language: lang,
+    }).value;
+  }
+});
 
 // 讀入parent傳進來的參數
 const props = defineProps(['role', 'content'])
 const role = computed(() => props?.role)
 const msg = computed(() => props?.content ?? '')
-const msgWithBeauty = computed(() => {
-    let x = msg.value.replaceAll(/</gm, '&lt;')
-    x = x.replaceAll(/>/gm, '&gt;')
-    x = x.replaceAll(/`{3}(?:[\w]*)\n([\S\s]+?)\n`{3}/gm, '<pre>$1</pre>')
-    x = x.replaceAll(/(?:\r\n|\r|\n|\\r\\n|\\r|\\n)/g, '<br/>')
-    return x
-})
+const msgWithMarkdown = computed(() => marked(msg.value))
 
 
 const alignClass = computed(() => {
@@ -34,12 +38,136 @@ const textAlignClass = computed(() => {
 const roleClass = computed(() => {
     return role.value === 'assistant' ? 'assistant-msg' : 'user-msg'
 })
+
+
+// 設定pre tag的language屬性
+const formatPreTags = () => {
+    const preTags = document.getElementsByTagName("pre");
+    [...preTags].forEach(preTag => {
+        const codeTag = preTag.getElementsByTagName("code")[0];
+        const className = codeTag.className;
+        if (preTag.getAttribute('language') !== null) {
+            return
+        } else {
+            preTag.setAttribute('language', className.replaceAll('language-', ''))
+        }
+    })
+}
+
+// 當元件載入時執行
+onMounted(() => {
+    formatPreTags()
+})
 </script>
+
+<style src='highlight.js/styles/xcode.css'>
+    /* global styles */
+</style> 
 
 <style scoped lang="scss">
 .msg {
-    padding: 10px 30px;
-    margin: 10px 0;
+    padding: 1.5rem 1.5rem 0.75rem 1.5rem;
+    margin: 0.5rem 0;
+
+    :deep table {
+        $border-color: #b8c2d2;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 1rem;
+
+        tr {
+            td, th{
+                padding: 15px;
+                // border: 1px solid #334754;
+            }
+        }
+        thead {
+            tr {
+                background-color: #54585d;
+                color: #ffffff;
+                font-weight: bold;
+
+                th {
+                    border-top: 1px solid $border-color;
+                    border-left: 1px solid $border-color;
+                    border-bottom: 1px solid $border-color;
+
+                    &:last-child {
+                        border-right: 1px solid $border-color;
+                    }
+                }
+                
+                &:first-child {
+                    th:first-child{
+                        border-radius: 0.75rem 0 0 0;
+                    }
+
+                    th:last-child{
+                        border-radius: 0 0.75rem 0 0;
+                    }
+                }
+            }
+        }
+        tbody {
+            tr {
+                background-color: #f1f6fd;
+                &:nth-child(odd) {
+                    background-color: #f1f6fd;
+                }
+
+                td {
+                    border-left: 1px solid $border-color;
+                    border-bottom: 1px solid $border-color;
+
+                    &:last-child {
+                        border-right: 1px solid $border-color;
+                    }
+                }
+                
+                &:last-child {
+                    td:first-child{
+                        border-radius: 0 0 0 0.75rem;
+                    }
+
+                    td:last-child{
+                        border-radius: 0 0 0.75rem 0;
+                    }
+                }
+            }
+        }
+    }
+
+    :deep code {
+        background-color: #f1f6fd;
+        border-radius: 0.5rem;
+        padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+    }
+
+    :deep pre {
+        border-radius: 0.75rem;
+        background-color: #f1f6fd;
+        padding: 0.75rem 1rem 1rem 1rem;
+        margin-bottom: 1rem;
+
+        code {
+            padding: 0;
+        }
+
+        &::before {
+            content: attr(language);
+            display: block;
+            position: relative;
+            width: calc(100% + 2rem);
+            padding: 0.25rem 1rem;
+            top: -0.75rem;
+            left: -1rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            background-color: #313f5366;
+            color: #FFF;
+        }
+    }
 
     &.user-msg {
         background-color: #3b82c1;
