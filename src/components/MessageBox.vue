@@ -49,6 +49,10 @@ const formatPreTags = () => {
         if (preTag.getAttribute('language') !== null) {
             return
         } else {
+            const codeLanguageDiv = document.createElement('div')
+            codeLanguageDiv.innerHTML = className.replaceAll('language-', '')
+            codeLanguageDiv.classList.add('code-language')
+            preTag.parentNode.insertBefore(codeLanguageDiv, preTag)
             preTag.setAttribute('language', className.replaceAll('language-', ''))
         }
     })
@@ -146,7 +150,7 @@ onMounted(() => {
     }
 
     :deep pre {
-        border-radius: 0.75rem;
+        border-radius: 0 0 0.75rem 0.75rem;
         background-color: #f1f6fd;
         padding: 0.75rem 1rem 1rem 1rem;
         margin-bottom: 1rem;
@@ -154,19 +158,14 @@ onMounted(() => {
         code {
             padding: 0;
         }
+    }
 
-        &::before {
-            content: attr(language);
-            display: block;
-            position: relative;
-            width: calc(100% + 2rem);
-            padding: 0.25rem 1rem;
-            top: -0.75rem;
-            left: -1rem;
-            border-radius: 0.75rem 0.75rem 0 0;
-            background-color: #313f5366;
-            color: #FFF;
-        }
+    :deep .code-language {
+        padding: 0.25rem 1rem;
+        border-radius: 0.75rem 0.75rem 0 0;
+        background-color: #313f5366;
+        color: #FFF;
+        font-family: var(--bs-font-monospace);
     }
 
     &.user-msg {
