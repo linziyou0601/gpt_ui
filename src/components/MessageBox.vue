@@ -10,14 +10,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onBeforeUpdate, onMounted } from 'vue'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 
 marked.setOptions({
   highlight: function(code, lang) {
     return hljs.highlight(code, {
-        language: lang,
+        language: lang || 'plaintext',
     }).value;
   }
 });
@@ -50,17 +50,21 @@ const formatPreTags = () => {
             return
         } else {
             const codeLanguageDiv = document.createElement('div')
-            codeLanguageDiv.innerHTML = className.replaceAll('language-', '')
+            const language = className.replaceAll('language-', '') || 'plaintext'
+            codeLanguageDiv.innerHTML = language
             codeLanguageDiv.classList.add('code-language')
             preTag.parentNode.insertBefore(codeLanguageDiv, preTag)
-            preTag.setAttribute('language', className.replaceAll('language-', ''))
+            preTag.setAttribute('language', language)
         }
     })
 }
 
 // 當元件載入時執行
 onMounted(() => {
-    formatPreTags()
+    setTimeout(formatPreTags, 100)
+})
+onBeforeUpdate(() => {
+    setTimeout(formatPreTags, 100)
 })
 </script>
 
