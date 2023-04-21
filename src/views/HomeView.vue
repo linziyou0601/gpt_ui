@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid px-0 mx-0 mt-2 mb-5">
+    <div id="home-view" class="container-fluid px-0">
         <div v-if="chatMsgs.length > 0" id="caht-area">
             <MessageBox v-for="(chat, index) in chatMsgs" :key="index" :role="chat.role" :content="chat.content" />
             <div class="text-center mt-4">
@@ -131,6 +131,10 @@ onMounted(() => {
 })
 </script>
 <style scoped lang="scss">
+#home-view {
+    margin: 0.5rem 0 5.5rem 0;
+}
+
 #caht-area {
     padding: 1rem 15rem;
 
